@@ -1,13 +1,67 @@
+/*
 import React from 'react'
-
-const TodoInput = () => {
+import {useSelector, useDispatch} from 'react-redux'
+import {toggleTodoAction, deleteTodoAction} from '../store/todoReducer'
+const TodoList = () => {
+    const todos = useSelector(state => state.todos)
+    const dispatch = useDispatch()
+    const toggleTodo = todoId => dispatch(toggleTodoAction(todoId))
+    const deleteTodo = todoId => dispatch(deleteTodoAction(todoId))
+    
     return <>
-    <h1>할일 등록</h1>
-    <form action="">
-        <div>
-            <input type="text" name="todo"/><br/>
-            <input type="submit" value="SUBMIT"/>
-        </div>
-    </form>
+    {todos && todos.length == 0 &&( 
+            <p>No Todo at the moment</p>
+    )}
+    {todos &&
+        todos.map(todo => (
+            <div key={todo.id}>
+                <div>
+                    <input type="checkbox" checked={todo.complete}
+                    onChange = {toggleTodo.bind(null, todo.todoId)}
+                    />
+                    <span style={{margin:'20px'}}>{todo.name}</span>
+                    <button onClick={deleteTodo.bind(null, todo.todoId)}>
+                        X
+                    </button>
+                </div>
+            </div>
+        ))}
+    </>
+
 }
-export default TodoInput
+export default TodoList
+*/
+
+import React from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {toggleTodoAction, deleteTodoAction} from '../store/todoReducer'
+const TodoList = () => {
+    const todos = useSelector(state => state.todos)
+    const dispatch = useDispatch()
+    const toggleTodo = todoId => dispatch(toggleTodoAction(todoId))
+    const deleteTodo = todoId => dispatch(deleteTodoAction(todoId))
+
+    return <>
+    {todos && todos.length === 0 && (
+            <p>No Todo at the moment</p>
+     )}
+    {todos && 
+        todos.map(todo => (
+            <div key={todo.id}>
+                <div>
+                    <input type="checkbox" checked={todo.complete}
+                    onChange = {toggleTodo.bind(null, todo.todoId)}
+                    />
+                    <span style={{margin: '20px'}}>{todo.name}</span>
+                    <button onClick= {deleteTodo.bind(null, todo.todoId)}>
+                        X
+                    </button>
+                </div>
+            </div>
+        ))
+
+    }
+    
+    </>
+}
+export default TodoList
